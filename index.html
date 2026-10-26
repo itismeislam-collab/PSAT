@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official PSAT Exam Registration Portal</title>
+  <style>
+    :root {
+      --cb-blue: #002d62;
+      --cb-accent: #0077c8;
+      --bg-gray: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-dark: #1f2937;
+      --border-color: #d1d5db;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-gray);
+      margin: 0;
+      padding: 30px 15px;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    header {
+      background: var(--cb-blue);
+      color: #fff;
+      padding: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.85;
+      font-size: 0.95rem;
+    }
+
+    .content {
+      padding: 28px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e5e7eb;
+      color: var(--cb-blue);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    input, select {
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--cb-accent);
+      box-shadow: 0 0 0 3px rgba(0, 119, 200, 0.15);
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 8px;
+    }
+
+    .checkbox-group input {
+      margin-top: 3px;
+    }
+
+    .checkbox-group label {
+      font-size: 0.82rem;
+      font-weight: normal;
+      color: #4b5563;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--cb-accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #005fa3;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    /* Summary Card View */
+    #summary-view {
+      display: none;
+    }
+
+    .summary-badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+
+    .summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.95rem;
+    }
+
+    .summary-table td.field-name {
+      font-weight: 600;
+      color: #4b5563;
+      width: 40%;
+    }
+
+    .summary-table td.field-value {
+      color: #111827;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>PSAT/NMSQT Registration Portal</h1>
+      <p>Official Student Candidate Information Form</p>
+    </header>
+
+    <div class="content">
+      <!-- 1. REGISTRATION FORM -->
+      <form id="psat-form">
+        <!-- Personal Identity -->
+        <div class="section-title">1. Student Identification</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName">First Name (Legal) *</label>
+            <input type="text" id="firstName" required placeholder="e.g., Alex" />
+            <span class="hint">Must match official school ID</span>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name / Surname *</label>
+            <input type="text" id="lastName" required placeholder="e.g., Morgan" />
+          </div>
+
+          <div class="form-group">
+            <label for="dob">Date of Birth (College Board Match) *</label>
+            <input type="date" id="dob" required />
+          </div>
+
+          <div class="form-group">
+            <label for="studentId">School Student ID *</label>
+            <input type="text" id="studentId" required placeholder="e.g., 982341" />
+          </div>
+
+          <div class="form-group full-width">
+            <label for="email">Student Email Address *</label>
+            <input type="email" id="email" required placeholder="alex.morgan@example.com" />
+            <span class="hint">Scores will be delivered to the College Board account tied to this email.</span>
+          </div>
+        </div>
+
+        <!-- Academic & School Info -->
+        <div class="section-title">2. Academic & School Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="grade">Current Grade Level *</label>
+            <select id="grade" required>
+              <option value="" disabled selected>Select grade...</option>
+              <option value="9th Grade">9th Grade</option>
+              <option value="10th Grade">10th Grade (PSAT 10)</option>
+              <option value="11th Grade">11th Grade (PSAT/NMSQT Eligible)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ceebCode">School CEEB Code (6 Digits) *</label>
+            <input type="text" id="ceebCode" pattern="[0-9]{6}" maxlength="6" required placeholder="e.g., 123456" />
+            <span class="hint">Ask your counselor if you don't know it</span>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="ssdCode">SSD Accommodation Code (Optional)</label>
+            <input type="text" id="ssdCode" placeholder="College Board SSD eligibility code (if approved)" />
+          </div>
+        </div>
+
+        <!-- College Board Requirements & Policy -->
+        <div class="section-title">3. College Board Digital Testing Readiness</div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="bluebookCheck" required />
+          <label for="bluebookCheck">
+            I confirm that I will bring an approved testing device (Chromebook, laptop, or school-issued device) equipped with the <strong>College Board Bluebook™</strong> application on test day.
+          </label>
+        </div>
+
+        <div class="checkbox-group" style="margin-top: 14px;">
+          <input type="checkbox" id="termsCheck" required />
+          <label for="termsCheck">
+            I certify that the information entered is accurate, matches my official ID, and I agree to adhere to all College Board test security and administration regulations.
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary">Complete & Review Registration</button>
+        </div>
+      </form>
+
+      <!-- 2. SUMMARY & REVIEW VIEW -->
+      <div id="summary-view">
+        <span class="summary-badge">✓ Registration Submitted - Review Details</span>
+        <h2 style="margin-top: 0; font-size: 1.3rem;">Candidate Registration Slip</h2>
+        <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 20px;">
+          Please review your details carefully. If any information is incorrect, click <strong>"Edit Registration"</strong> below to modify it.
+        </p>
+
+        <table class="summary-table">
+          <tbody>
+            <tr>
+              <td class="field-name">Candidate Name:</td>
+              <td class="field-value" id="disp-name"></td>
+            </tr>
+            <tr>
+              <td class="field-name">Date of Birth:</td>
+              <td class="field-value" id="disp-dob"></td>
+            </tr>
+            <tr>
+              <td class="field-name">Student ID:</td>
+              <td class="field-value" id="disp-student-id"></td>
+            </tr>
+            <tr>
+              <td class="field-name">Email Address:</td>
+              <td class="field-value" id="disp-email"></td>
+            </tr>
+            <tr>
+              <td class="field-name">Current Grade:</td>
+              <td class="field-value" id="disp-grade"></td>
+            </tr>
+            <tr>
+              <td class="field-name">High School CEEB Code:</td>
+              <td class="field-value" id="disp-ceeb"></td>
+            </tr>
+            <tr>
+              <td class="field-name">SSD Accommodation Code:</td>
+              <td class="field-value" id="disp-ssd"></td>
+            </tr>
+            <tr>
+              <td class="field-name">Bluebook Readiness:</td>
+              <td class="field-value" id="disp-bluebook">Confirmed (Ready)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="actions">
+          <button type="button" id="edit-btn" class="btn-secondary">✏️ Edit Registration</button>
+          <button type="button" id="final-btn" class="btn-primary" onclick="alert('Registration successfully verified and locked!')">✓ Confirm & Lock Registration</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('psat-form');
+    const summaryView = document.getElementById('summary-view');
+    const editBtn = document.getElementById('edit-btn');
+
+    // Handle Form Submission -> Show Summary
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Populate summary fields
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      document.getElementById('disp-name').textContent = `${lastName.toUpperCase()}, ${firstName}`;
+      document.getElementById('disp-dob').textContent = document.getElementById('dob').value;
+      document.getElementById('disp-student-id').textContent = document.getElementById('studentId').value.trim();
+      document.getElementById('disp-email').textContent = document.getElementById('email').value.trim();
+      document.getElementById('disp-grade').textContent = document.getElementById('grade').value;
+      document.getElementById('disp-ceeb').textContent = document.getElementById('ceebCode').value.trim();
+      
+      const ssd = document.getElementById('ssdCode').value.trim();
+      document.getElementById('disp-ssd').textContent = ssd ? ssd : 'None requested';
+
+      // Switch views
+      form.style.display = 'none';
+      summaryView.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Handle "Edit" Action -> Return to Form with Data Preserved
+    editBtn.addEventListener('click', () => {
+      summaryView.style.display = 'none';
+      form.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
